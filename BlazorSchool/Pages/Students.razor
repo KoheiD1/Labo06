@@ -1,0 +1,60 @@
+﻿@page "/"
+@inject HttpClient httpClient
+@using SchoolLibrary
+
+<h1>Students</h1>
+<p>
+    <input type="search" @bind="titleFilter" @bind:event="oninput" />
+</p>
+
+@if (students == null) {
+<p><em>Loading...</em></p>
+} else {
+<table class='table table-hover'>
+  <QuickGrid Items="@(students)" Pagination="@pagination">
+    <PropertyColumn Property="@(p => p.StudentId)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.LastName)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.School)" Sortable="true" />
+    <TemplateColumn>
+        <a class="btn btn-success btn-sm" href="/updel/@context.StudentId/edit">Edit</a>
+    </TemplateColumn>
+    <TemplateColumn>
+        <a class="btn btn-danger btn-sm" href="/updel/@context.StudentId/del">del</a>
+    </TemplateColumn>
+</QuickGrid>
+</table>
+
+
+}
+
+<Paginator State="pagination"></Paginator>
+
+@code {
+    private string _titleFilter = string.Empty;
+    private string titleFilter
+    {
+        get => _titleFilter;
+        set
+        {
+            _titleFilter = value;
+            load(); 
+        }
+    }
+
+    IQueryable<Student>? students;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 20 };
+
+  protected override async Task OnInitializedAsync() {
+    await load();
+  }
+
+  protected async Task load() {
+    var studentArray = await httpClient.GetFromJsonAsync<Student[]>($"{Constants.BASE_URL}api/students");
+
+    students = studentArray?.AsQueryable();
+    
+    students = students?.Where(s => s.FirstName.Contains(titleFilter, StringComparison.OrdinalIgnoreCase) || s.LastName.Contains(titleFilter, StringComparison.OrdinalIgnoreCase) || s.School.Contains(titleFilter, StringComparison.OrdinalIgnoreCase));
+
+}
+}
