@@ -1,6 +1,8 @@
 ﻿@page "/amount"
 @inject HttpClient httpClient
 @using System.Collections.Generic
+@using SchoolLibrary
+
 
 <h1>Schools</h1>
 
@@ -18,8 +20,8 @@
             @foreach (var item in schoolCounts)
             {
                 <tr>
-                    <td>@item.Key</td>
-                    <td>@item.Value</td>
+                    <td>@item.School</td>
+                    <td>@item.StudentCount</td>
                 </tr>
             }
         </tbody>
@@ -27,13 +29,13 @@
 }
 
 @code {
-    List<KeyValuePair<string, int>> schoolCounts;
+    List<SchoolCount> schoolCounts;
 
     protected override async Task OnInitializedAsync() {
         await load();
     }
 
     protected async Task load() {
-        schoolCounts = await httpClient.GetFromJsonAsync<List<KeyValuePair<string, int>>>($"{Constants.BASE_URL}api/students/count-by-school");
+        schoolCounts = await httpClient.GetFromJsonAsync<List<SchoolCount>>($"{Constants.BASE_URL}api/students/count-by-school");
     }
 }
