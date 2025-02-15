@@ -6,7 +6,11 @@
                 "isEnabled": true,
                 "excludedTypes": "Request"
             },
-            "enableLiveMetricsFilters": true
+            "enableLiveMetricsFilters": true,
+            "cors": {
+            "allowedOrigins": ["*"]
         }
+        }
+        
     }
 }
