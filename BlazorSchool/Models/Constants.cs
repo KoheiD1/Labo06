@@ -4,5 +4,5 @@ namespace BlazorSchool.Models;
 
 public class Constants
 {
-    public const string BASE_URL = "/api/";
+    public const string BASE_URL = "/";
 }
