@@ -2,6 +2,6 @@
 namespace SchoolLibrary;
 public class SchoolCount
 {
-    public string School { get; set; }
-    public int StudentCount { get; set; }
+    public string Key { get; set; }      // Renamed from School
+    public int Value { get; set; }       // Renamed from StudentCount
 }

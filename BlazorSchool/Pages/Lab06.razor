@@ -3,7 +3,6 @@
 @using System.Collections.Generic
 @using SchoolLibrary
 
-
 <h1>Schools</h1>
 
 @if (schoolCounts == null) {
@@ -20,8 +19,8 @@
             @foreach (var item in schoolCounts)
             {
                 <tr>
-                    <td>@item.School</td>
-                    <td>@item.StudentCount</td>
+                    <td>@item.Key</td>           <!-- Display Key as School -->
+                    <td>@item.Value</td>         <!-- Display Value as Student Count -->
                 </tr>
             }
         </tbody>
